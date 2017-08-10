@@ -287,6 +287,7 @@ function cu_class_notes_archive_added_year($date1, $date2, $year_arg_1 = NULL, $
  * Show class notes for a given year.
  */
 function cu_class_notes_archive_year($arg2 = NULL, $arg3 = NULL) {
+  $sort = (arg(3) == 'recent') ? TRUE : FALSE;
   $year1 =(int) $arg2;
   $year2 =(int) $arg3;
   $output = array();
@@ -314,7 +315,12 @@ function cu_class_notes_archive_year($arg2 = NULL, $arg3 = NULL) {
     $query->condition('year.field_class_note_class_year_value', $year1, '=');
   }
   $query->orderBy('field_class_note_class_year_value', 'ASC');
-  $query->orderBy('created', 'ASC');
+  if ($sort) {
+    $query->orderBy('created', 'DESC');
+  }
+  else {
+    $query->orderBy('created', 'ASC');
+  }
   $nids = $query->execute()->fetchCol();
   $nodes = node_load_multiple($nids);
   if (!$nodes) {
@@ -388,6 +394,7 @@ function cu_class_notes_filter_form($form, &$form_state, $order) {
     '#title' => NULL,
     '#attributes' => array('class' => array('container-inline')),
   );
+  $selected_year = arg(2);
   $form['classnotes_filter']['year'] = array(
     '#type' => 'select',
     '#options' => $years,
@@ -396,11 +403,15 @@ function cu_class_notes_filter_form($form, &$form_state, $order) {
     '#prefix' => '<div class="classnotes-filter">',
     '#suffix' => '</div>',
   );
+  if (isset($years[$selected_year])) {
+    $form['classnotes_filter']['year']['#default_value'] = $selected_year;
+  }
   $form['classnotes_filter']['separator'] = array(
     '#markup' => ' &bull; ',
     '#prefix' => '<div class="classnotes-markup">',
     '#suffix' => '</div>',
   );
+
   $form['classnotes_filter']['sort'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -411,6 +422,9 @@ function cu_class_notes_filter_form($form, &$form_state, $order) {
       '#prefix' => '<div class="classnotes-sort">',
       '#suffix' => '</div>',
   );
+  if (arg(3) == 'recent') {
+    $form['classnotes_filter']['sort']['#default_value'] = 'created';
+  }
   $form['classnotes_filter']['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Submit',
@@ -428,7 +442,11 @@ function cu_class_notes_filter_form($form, &$form_state, $order) {
  * Submit function for cu_class_notes_filter_form().
  */
 function cu_classnotes_form_filter_submit($form, $form_state) {
-  if (!empty($form_state['values']['year'])) {
+  if (!empty($form_state['values']['year']) && ($form_state['values']['sort'] == 'created')) {
+    $year = $form_state['values']['year'];
+    drupal_goto('classnotes/year/' . $year . '/recent');
+  }
+  elseif (!empty($form_state['values']['year'])) {
     $year = $form_state['values']['year'];
     drupal_goto('classnotes/year/' . $year);
   }
