@@ -1,6 +1,7 @@
 name = Class Notes
 core = 7.x
-package = CU-Alumni
+package = Alumni Class Notes
+description = Content type and displays of class note content
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = list

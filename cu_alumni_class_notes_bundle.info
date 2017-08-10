@@ -1,4 +1,7 @@
-name = Class Notes
+name = Alumni Class Notes
 core = 7.x
-
+package = Alumni Class Notes
+description = Add updates about alumni members
 dependencies[] = cu_class_notes
+bundle_group = addon_bundles
+version = 7.x-1.0
