@@ -1,0 +1,4 @@
+name = Class Notes
+core = 7.x
+
+dependencies[] = cu_class_notes
