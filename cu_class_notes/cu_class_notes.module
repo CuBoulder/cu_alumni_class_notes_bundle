@@ -539,3 +539,16 @@ function _cu_class_notes_class_years() {
   }
   return $years;
 }
+
+/**
+ * Implements hook_form_formid_alter().
+ *
+ * Change class year form from select menu to text field.
+ * Field will still only accept integer values provided
+ * from _cu_class_notes_class_years().
+ */
+function cu_class_notes_form_node_form_alter(&$form, &$form_state, $form_id) {
+  if ($form['#node']->type == 'class_note') {
+    $form['field_class_note_class_year'][LANGUAGE_NONE]['#type'] = 'textfield';
+  }
+}
