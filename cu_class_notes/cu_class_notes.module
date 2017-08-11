@@ -406,11 +406,7 @@ function cu_class_notes_filter_form($form, &$form_state, $order) {
   if (isset($years[$selected_year])) {
     $form['classnotes_filter']['year']['#default_value'] = $selected_year;
   }
-  $form['classnotes_filter']['separator'] = array(
-    '#markup' => ' &bull; ',
-    '#prefix' => '<div class="classnotes-markup">',
-    '#suffix' => '</div>',
-  );
+
 
   $form['classnotes_filter']['sort'] = array(
       '#type' => 'select',
@@ -428,6 +424,8 @@ function cu_class_notes_filter_form($form, &$form_state, $order) {
   $form['classnotes_filter']['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Submit',
+    '#prefix' => '<div class="classnotes-submit">',
+    '#suffix' => '</div>',
   );
   $form['classnotes_filter']['view_all'] = array(
     '#markup' => l('View all Class Notes', 'classnotes'),
