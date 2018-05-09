@@ -3,7 +3,6 @@ core = 7.x
 package = Alumni Class Notes
 description = Add updates about alumni members
 dependencies[] = cu_class_notes
-bundle_group = addon_bundles
 version = 7.x-1.1
 project = cu_alumni_class_notes_bundle
 project status url = https://github.com/CuBoulder/cu_alumni_class_notes_bundle
